@@ -1,34 +1,46 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
+import {HttpClient}  from '@angular/common/http';
 import {Location} from '@angular/common';
 import {WebApiUrlsService} from './web-api-urls.service';
 import { HttpHeaders } from '@angular/common/http';
+import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private http:Http;
+  private http:HttpClient;
   private location : Location;
   private webApiUrl:WebApiUrlsService;
   private email: string;
   private password :string;
 
-  constructor(http: Http, location:Location, webApiUrl : WebApiUrlsService )
+  constructor(http: HttpClient, location:Location, webApiUrl : WebApiUrlsService )
   { 
     this.http=http;
     this.location=location;
     this.webApiUrl=webApiUrl;
   }
-  login(email : string, password :string ):any
+  login(email : string, password :string ):Observable<boolean>
   {
-    let url=this.webApiUrl.ServerUrl + this.webApiUrl.Controller.Registration + this.webApiUrl.Actions.login;
-    let body={'email': email, 'password' : password};
-    
-    
-    let opts = new RequestOptions();
-    opts.headers = new Headers();
-    opts.headers.append('Access-Control-Allow-Origin','*');
-    return  this.http.post(url,body,opts);    
+    const url=this.webApiUrl.ServerUrl + this.webApiUrl.Controller.Registration + this.webApiUrl.Actions.login;
+    const body={"email": email, "password" : password};
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return  this.http.post(url,JSON.stringify(body),httpOptions).pipe(
+      map((res:boolean)=>
+      {
+        return res;
+      })
+    );    
+  }
+  getRequest():any
+  {
+    const url=this.webApiUrl.ServerUrl + "/value"
+    return this.http.get(url);    
   }
 }

@@ -21,11 +21,14 @@ export class LoginComponent implements OnInit {
     ngOnInit() {}
 
     onLoggedin() {
+        // this.loginService.getRequest().subscribe((response: Response)=>
+        // {
+        //     console.log(response);
+        // });
         this.loginService.login(this.user,this.password).subscribe(
-            (response :Response)=>
+            (response :boolean)=>
             {
-                let result=response.json();
-                console.log("result");
+                console.log(response);
             },
             (respose:Response)=>
             {
