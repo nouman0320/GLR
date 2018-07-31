@@ -14,7 +14,8 @@ export class WebApiUrlsService {
   };
   Actions=
   {
-    login:"/login"
+    login:"/login",
+    register: "/register"
   };
   //#endregion
 

@@ -28,7 +28,10 @@ export class LoginComponent implements OnInit {
         this.loginService.login(this.user,this.password).subscribe(
             (response :boolean)=>
             {
-                console.log(response);
+                if(response==true)
+                {
+                    localStorage.setItem('isLoggedin','true');
+                }
             },
             (respose:Response)=>
             {

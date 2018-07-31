@@ -5,6 +5,7 @@ import {WebApiUrlsService} from './web-api-urls.service';
 import { HttpHeaders } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Registration } from '../models/Registration';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +38,24 @@ export class LoginService {
         return res;
       })
     );    
+  }
+  register(registration : Registration) : Observable<boolean>
+  {
+    const url=this.webApiUrl.ServerUrl + this.webApiUrl.Controller.Registration + this.webApiUrl.Actions.register;
+    const body=registration;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      }) 
+    };
+    return  this.http.post(url,JSON.stringify(body),httpOptions).pipe(
+      map((res:boolean)=>
+      {
+        return res;
+      })
+    );  
+
+
   }
   getRequest():any
   {
